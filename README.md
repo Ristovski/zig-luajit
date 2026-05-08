@@ -25,7 +25,7 @@ checks in `Debug` and `ReleaseSafe` builds and provides full test coverage of th
 
 ## Zig Version
 
-The `main` branch targets the latest stable Zig version. Currently `0.15.1`.
+The `main` branch targets the latest stable Zig version. Currently `0.16.0`.
 
 For other Zig versions look for branches with the named version.
 
@@ -353,3 +353,4 @@ can be found in the [COPYRIGHT](./COPYRIGHT.md) file.
 
 This project was inspired by [natecraddock/ziglua](https://github.com/natecraddock/ziglua) which provides great
 functionality if you're looking to use Lua runtimes other than LuaJIT!
+
