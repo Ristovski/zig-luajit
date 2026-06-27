@@ -2119,7 +2119,7 @@ pub const Lua = opaque {
         return switch (res) {
             0 => return,
             else => |err| {
-                const error_value: std.meta.Int(.unsigned, @bitSizeOf(anyerror)) = @intCast(err);
+                const error_value: @Int(.unsigned, @bitSizeOf(anyerror)) = @intCast(err);
                 return @errorFromInt(error_value);
             },
         };
@@ -5468,7 +5468,13 @@ test "Buffer should handle very long string" {
 
     try std.testing.expectEqual(1, lua.getTop());
     try std.testing.expect(lua.isString(-1));
-    try std.testing.expectEqualStrings("0123456789" ** 25_600, try lua.toLString(-1));
+
+    const expected_25600: []const u8 = expected: {
+        const arr: [25600][10]u8 = @splat("0123456789".*);
+        break :expected @ptrCast(&arr);
+    };
+
+    try std.testing.expectEqualStrings(expected_25600, try lua.toLString(-1));
 }
 
 test "Buffer can be created by direct writes to the buffer" {
