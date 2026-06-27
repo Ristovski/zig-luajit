@@ -9,7 +9,9 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const luajit_build_dep = b.dependency("luajit_build", .{ .target = target, .optimize = optimize, .link_as = .static });
+    const linkage = b.option(std.builtin.LinkMode, "linkage", "Linkage for the luajit library") orelse .static;
+
+    const luajit_build_dep = b.dependency("luajit_build", .{ .target = target, .optimize = optimize, .link_as = linkage });
     const luajit_build = luajit_build_dep.module("luajit-build");
 
     const lib_mod = b.addModule("luajit", .{
@@ -20,7 +22,7 @@ pub fn build(b: *std.Build) void {
 
     const lib = b.addLibrary(.{
         .name = "luajit",
-        .linkage = .static,
+        .linkage = linkage,
         .root_module = lib_mod,
     });
     lib.root_module.addImport("c", luajit_build);
